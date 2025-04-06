@@ -1,60 +1,55 @@
 'use client'
 import React from 'react'
 import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import {
     Sidebar,
     SidebarContent,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
+    // SidebarGroupLabel,
     SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
+    // SidebarMenuButton,
+    // SidebarMenuItem,
     SidebarProvider,
     SidebarTrigger
 } from "@/components/ui/sidebar"
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+// import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import styles from './Big.module.css'
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AutoAwesomeMosaicOutlinedIcon from '@mui/icons-material/AutoAwesomeMosaicOutlined';
-import { usePathname, useRouter } from 'next/navigation'
+// import DashboardIcon from '@mui/icons-material/Dashboard';
+// import AutoAwesomeMosaicOutlinedIcon from '@mui/icons-material/AutoAwesomeMosaicOutlined';
+import { useRouter } from 'next/navigation'
 import Nav from './Nav'
 import Image from 'next/image'
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import NotificationsPausedOutlinedIcon from '@mui/icons-material/NotificationsPausedOutlined';
 
 // Menu items.
-const items = [
-    {
-        title: "Home",
-        url: "#",
-        icon: Home,
-    },
-    {
-        title: "Inbox",
-        url: "#",
-        icon: Inbox,
-    },
-    {
-        title: "Calendar",
-        url: "#",
-        icon: Calendar,
-    },
-    {
-        title: "Search",
-        url: "#",
-        icon: Search,
-    },
-    {
-        title: "Settings",
-        url: "#",
-        icon: Settings,
-    },
-]
+// const items = [
+//     {
+//         title: "Home",
+//         url: "#",
+//         icon: Home,
+//     },
+//     {
+//         title: "Inbox",
+//         url: "#",
+//         icon: Inbox,
+//     },
+//     {
+//         title: "Calendar",
+//         url: "#",
+//         icon: Calendar,
+//     },
+//     {
+//         title: "Search",
+//         url: "#",
+//         icon: Search,
+//     },
+//     {
+//         title: "Settings",
+//         url: "#",
+//         icon: Settings,
+//     },
+// ]
 
 export default function BigLayout({
     children,
@@ -62,7 +57,7 @@ export default function BigLayout({
     children: React.ReactNode;
 }>) {
 
-    const pathname = usePathname()
+    // const pathname = usePathname()
     const router = useRouter()
 
     const sider = [
@@ -76,7 +71,7 @@ export default function BigLayout({
         {path:'/Big/Main',name:'我的账户'}
     ]
 
-    const onClickRouters = (item:any) => {
+    const onClickRouters = (item:string) => {
         // console.log(item);
         
         router.push(item)

@@ -7,7 +7,7 @@ async function connectDB() {
         return cachedConnection;
     }
     try {
-        const conn = await mongoose.connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/999');
+        const conn = await mongoose.connect(process.env.MONGODB_URL || 'mongodb+srv://tea:123456ljy@cluster0.kayno.mongodb.net/AI');
         console.log('ok');
         cachedConnection = conn;
         return conn;
