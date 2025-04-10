@@ -1,0 +1,45 @@
+.money{
+    width: 87%;
+    height: 160px;
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 30px;
+    border-radius: 10px 10px 0 0;
+    margin: auto;
+}
+.money_top{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.money_bottom{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.money_bottom_div{
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    justify-content: space-between;
+}
+.buy{
+    width: 87%;
+    height: 60px;
+    background-color: #3f3f44;
+    display: flex;
+    margin: auto;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    border-radius: 0 0 10px 10px;
+}
+.buy_left{
+    display: flex;
+    flex-direction: column;
+}
