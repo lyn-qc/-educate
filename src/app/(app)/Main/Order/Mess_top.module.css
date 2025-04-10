@@ -1,0 +1,54 @@
+.bigg{
+    width: 100%;
+    height: 100%;
+    /* background-color:black; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mess{
+    width: 100%;
+    height: 55%;
+    /* background-color: bisque; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mess_top{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mess_div{
+    width: 100%;
+    height: 90%;
+    /* background-color: bisque; */
+    display: flex;
+}
+.mess_left{
+    width: 25%;
+    height: 100%;
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.mess_right{
+    width: 75%;
+    height: 100%;
+    /* background-color: aquamarine; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.mess_right_div{
+    width: 48%;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    /* background-color: blue; */
+}

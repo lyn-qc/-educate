@@ -121,3 +121,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+:root {
+  --color-1: #cceabc;
+  --color-2: #feca9f;
+  --color-3: #3f3f44;
+  --color-4: #fe7b56;
+  --color-5: #bcdaac;
+  --color-6: #abd7e9;
+  --color-7: #fcf4ee;
+  --color-8: #f5faf3;
+  --color-9: #f7f7f7;
+}

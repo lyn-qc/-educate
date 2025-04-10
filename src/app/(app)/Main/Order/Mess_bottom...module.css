@@ -1,0 +1,36 @@
+.mess{
+    height: 42%;
+    width: 100%;
+    /* background-color: bisque; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.mess_bottom{
+    width: 100%;
+    height: 56%;
+    /* background-color: brown; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.mess_main{
+    width: 100%;
+    height: 28%;
+    /* background-color: burlywood; */
+}
+.mess_div{
+    width: 30%;
+    height: 65px;
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mess_div span{
+    font-size: 13px;
+}
+.mess_main span{
+    font-size: 13px;
+}
