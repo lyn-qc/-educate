@@ -46,7 +46,7 @@ export default function UserItem({
         <Link href={`/worksapce/${worksapceId}/member/${id}`}>
             <Avatar className='size-5 rounded-md mr-1'>
                 <AvatarImage className='rounded-md' src={image} ></AvatarImage>
-                <AvatarFallback className='rounded-md bg-sky-500 text-white'>
+                <AvatarFallback className='rounded-md bg-sky-500 text-white text-xs'>
                     {avatarFallback}
                 </AvatarFallback>
             </Avatar>

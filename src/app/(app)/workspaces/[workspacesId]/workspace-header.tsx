@@ -42,13 +42,12 @@ export default function WorkspaceHeader({workspace,isAdmin}: WorkspaceHeaderProp
              variant="ghost"
              className='font-semibold text-lg w-auto p-1.5 overflow-hidden' size="sm"
             >
-                <span className='truncate text-white'>{workspace?.name}</span>
+                <span className='truncate text-gray-600'>{workspace?.name}</span>
                 <ChevronDown className='size-4 ml-1 shrink-0'> </ChevronDown>
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start' className='w-64'>
-         {
-            isAdmin && <>
+         
                <DropdownMenuItem
             className='cursor-pointer capitalize'
             >
@@ -61,6 +60,8 @@ export default function WorkspaceHeader({workspace,isAdmin}: WorkspaceHeaderProp
                 </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            {
+            isAdmin && <>
             <DropdownMenuItem
              className='cursor-pointer py-2'
              onClick={()=>{setIntiveOpen(true)}}

@@ -30,7 +30,7 @@ export default function WorkspaceSwitcher() {
             <DropdownMenuTrigger>
                 <Button
                     asChild
-                    className="size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl"
+                    className="size-9 relative overflow-hidden bg-blue-50 hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl"
                 >
                     <span>
                         {worksapceLoading ?

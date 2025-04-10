@@ -6,8 +6,10 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useCreateChannel } from '../api/use-create-channel'
 import { useWorkspaceId } from '@/hooks/use-workspace-id'
+import { useRouter } from 'next/navigation'
 
 export default function CreateChannelModel() {
+    const router = useRouter()
     const {mutate, isPending} = useCreateChannel()
     const [open, setOpen] = useCreateChannelModel()
     const [name,setName] = useState('')
@@ -22,6 +24,7 @@ export default function CreateChannelModel() {
             {name,workspaceId},
             {
                 onSuccess: () =>{
+                    router.push(`/workspace/${workspaceId}/channel/{id}`)
                     handleClose()
                 }
             }

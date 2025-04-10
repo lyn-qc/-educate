@@ -1,5 +1,5 @@
 "use client"
-import { useGetChannel } from '@/features/channel/api/use-get-channel'
+import { useGetChannels } from '@/features/channel/api/use-get-channels'
 import { useCreateChannelModel } from '@/features/channel/store/use-create-clannel-model'
 import { useGetWorkspace } from '@/features/workspaces/api/use-get-workspace'
 import { useWorkspaceId } from '@/hooks/use-workspace-id'
@@ -12,7 +12,7 @@ export default function ChannelPage() {
     const workspaceId = useWorkspaceId()
     const [open, setOpen] = useCreateChannelModel()
     const {data: workspace,isLoading: workspaceLoading} = useGetWorkspace({id: workspaceId})
-    const {data:channel,isLoading: channelLoading} = useGetChannel({
+    const {data:channel,isLoading: channelLoading} = useGetChannels({
         workspaceId
     })
     const channelId = useMemo(()=> channel?.[0]?._id, [channel])
