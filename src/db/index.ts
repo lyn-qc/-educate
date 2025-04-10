@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { sidebarModel } from "./AI"
 
 let cachedConnection: typeof mongoose | null = null;
 
@@ -7,7 +8,7 @@ async function connectDB() {
         return cachedConnection;
     }
     try {
-        const conn = await mongoose.connect(process.env.MONGODB_URL || 'mongodb+srv://tea:123456ljy@cluster0.kayno.mongodb.net/AI');
+        const conn = await mongoose.connect(process.env.MONGODB_URL || 'mongodb+srv://tea:123456ljy@cluster0.kayno.mongodb.net/educate');
         console.log('ok');
         cachedConnection = conn;
         return conn;
@@ -29,7 +30,6 @@ const deepseekSchema = new mongoose.Schema({
     ipAddress: String,     // 请求IP
     userAgent: String,     // 用户浏览器信息
     createdAt: { type: Date, default: Date.now },
-
 })
 
 let deepseekmodel;
@@ -42,5 +42,7 @@ try {
 
 export {
 
-    deepseekmodel
+    deepseekmodel,
+    // 杨志豪
+    sidebarModel
 }

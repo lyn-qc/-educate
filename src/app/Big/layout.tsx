@@ -21,6 +21,7 @@ import Nav from './Nav'
 import Image from 'next/image'
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import NotificationsPausedOutlinedIcon from '@mui/icons-material/NotificationsPausedOutlined';
+import { Provider } from "jotai";
 
 // Menu items.
 // const items = [
@@ -114,11 +115,11 @@ export default function BigLayout({
                             </div>
                         </div>
                         <div className={styles.main_bottom}>
-                            {children}
+                            <Provider>
+                                {children}
+                            </Provider>
                         </div>
                     </div>
-                    
-                    
                 </main>
             </SidebarProvider>
         </div>

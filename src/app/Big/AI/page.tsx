@@ -1,8 +1,80 @@
-import Conversations from "@/components/componentAI/conversations/conversations";
+"use client"
+import Conversation, { ConversationData } from "@/components/componentAI/conversations/conversations";
 import Senderinput from "@/components/componentAI/senderInput/senderinput";
 import { AlignRightOutlined } from "@ant-design/icons";
+import { useInitalFlag } from "@/regionAI/jotai/switch"
+import { useEffect, useState } from "react";
 
 export default function Page() {
+  const [initalFlag, setInitalFlag] = useInitalFlag();
+  const [conversations, setConversations] = useState<ConversationData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+
+  // 获取会话列表数据 - 使用真实API
+  const fetchConversations = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/addSidebar");
+      const data = await response.json();
+      
+      if (data.code === 200 && Array.isArray(data.data)) {
+        console.log("获取到会话数据:", data.data.length, "条记录");
+        setConversations(data.data);
+      } else {
+        console.error('获取会话数据失败:', data.message || '未知错误');
+        setConversations([]);
+      }
+    } catch (error) {
+      console.error('获取会话列表失败:', error);
+      setConversations([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 选择会话
+  const handleSelectConversation = (conversationId: string) => {
+    // 从conversations中找到对应的会话
+    const selectedConversation = conversations.find(conv => conv._id === conversationId);
+    if (selectedConversation) {
+      console.log("选中会话:", conversationId);
+      setSelectedConversationId(conversationId);
+      // 使用initalFlag控制右侧显示聊天内容而不是欢迎页面
+      setInitalFlag(false);
+    } else {
+      console.error(`未找到ID为${conversationId}的会话`);
+    }
+  };
+
+  // 删除会话 - 使用alert提示
+  const handleDeleteConversation = (conversationId: string) => {
+    alert(`准备删除会话ID: ${conversationId}，后端接口尚未准备好`);
+    // 如果删除的是当前选中的会话，回到欢迎页面
+    if (selectedConversationId === conversationId) {
+      setSelectedConversationId(null);
+      setInitalFlag(true);
+    }
+  };
+
+  // 创建新会话
+  const handleCreateNewConversation = () => {
+    alert('准备创建新会话，后端接口尚未准备好');
+    setInitalFlag(true); // 显示欢迎页面
+    setSelectedConversationId(null);
+  };
+
+  // 首次加载时获取会话列表
+  useEffect(() => {
+    fetchConversations();
+  }, []);
+
+  // 监控状态变化，便于调试
+  useEffect(() => {
+    console.log("Page组件 - initalFlag:", initalFlag);
+    console.log("Page组件 - selectedConversationId:", selectedConversationId);
+  }, [initalFlag, selectedConversationId]);
+
   return (
     <>
       <div className='w-full h-full flex flex-row'>
@@ -11,16 +83,27 @@ export default function Page() {
             KotoAI
             <AlignRightOutlined className="text-lg cursor-pointer" />
           </div>
-          <div className="w-11/12 h-10 text-[var(--color-8)] leading-10 font-bold text-lg text-center  bg-[var(--color-1)] rounded-md mx-auto cursor-pointer">
+          <div
+            className="w-11/12 h-10 text-[var(--color-8)] leading-10 font-bold text-lg text-center bg-[var(--color-1)] rounded-md mx-auto cursor-pointer"
+            onClick={handleCreateNewConversation}
+          >
             开启新对话
           </div>
           <div className="w-full h-[calc(100%-7rem)]">
-            <Conversations />
+            <Conversation 
+              conversationData={conversations}
+              loading={loading}
+              onDeleteConversation={handleDeleteConversation}
+              onSelectConversation={handleSelectConversation}
+            />
           </div>
         </div>
         <div className='w-4/5 h-full'>
           <div className="w-full flex justify-center h-full">
-            <Senderinput />
+            <Senderinput 
+              selectedConversationId={selectedConversationId} 
+              onConversationCreated={fetchConversations} 
+            />
           </div>
         </div>
       </div>

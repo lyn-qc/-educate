@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Welcome, Prompts } from '@ant-design/x';
 import type { PromptsProps } from '@ant-design/x';
-import { Button, Space, App, Card } from 'antd';
+import { Space, Card, message } from 'antd';
 
 const renderTitle = (icon: React.ReactElement, title: string) => (
     <Space align="start">
@@ -62,10 +62,11 @@ const items: PromptsProps['items'] = [
 ];
 
 export default function InitalPage() {
-    // const { message } = App.useApp();
+    const [messageApi, contextHolder] = message.useMessage();
 
     return (
         <>
+            {contextHolder}
             <Welcome
                 variant="borderless"
                 className="w-9/12"
@@ -95,7 +96,10 @@ export default function InitalPage() {
                         },
                     }}
                     onItemClick={(info) => {
-                        alert(`You clicked a prompt: ${info.data.key}`);
+                        messageApi.open({
+                            type: 'success',
+                            content: `You clicked a prompt: ${info.data.key}`,
+                        });
                     }}
                 />
             </Card>
