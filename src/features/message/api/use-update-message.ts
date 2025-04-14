@@ -6,11 +6,7 @@ import { useState } from "react";
 
 type RequestType = {
     body:string,
-    image?:Id<"_storage">,
-    workspaceId:Id<"workspaces">
-    channelId?:Id<"channels">
-    parentMessageId?:Id<"messages">
-    conversationId?:Id<"conversations">
+    id:Id<"messages">
 }
 type ResponseType = Id<"messages"> | null 
 
@@ -20,7 +16,7 @@ type Options = {
     onSettled?:()=>void;
     throwError?:boolean;
 }
-export const useCreateMessage = () => {
+export const useUpdateMessage = () => {
     const [data, setData] = useState<ResponseType | null>(null)
     const [error, setError] = useState<Error | null>(null)
  
@@ -30,7 +26,7 @@ export const useCreateMessage = () => {
     const isSuccess = useMemo(() => status === 'success', [status])
     const isError = useMemo(() => status === 'error', [status])
     const isSettled = useMemo(() => status === 'settled', [status])
-    const mutation = useMutation(api.message.create)
+    const mutation = useMutation(api.message.update)
     const mutate = useCallback(async(values: RequestType, options?: Options) =>{
         try{
             setData(null)
