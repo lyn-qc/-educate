@@ -5,7 +5,6 @@ import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces"
 import { useEffect, useMemo } from "react"
 import { useCreateWorkspaceModel } from "@/features/workspaces/store/use-create-workspace-model"
 import { useRouter } from "next/navigation"
-
 export default function Page() {
   const router = useRouter()
   const { data, isLoading } = useGetWorkspaces()

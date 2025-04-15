@@ -5,7 +5,6 @@ import { Progress } from 'antd';
 import * as echarts from 'echarts';
 // import {echarts} from 'echarts/core'
 import { useEffect, useState } from 'react'
-import Image from '../../../../../node_modules/next/image'
 import { UserButton } from '@/features/auth/components/user-button'
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser'
 import { VideoCameraOutlined, StockOutlined, AuditOutlined, EyeOutlined, PayCircleOutlined } from '@ant-design/icons'

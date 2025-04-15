@@ -1,3 +1,4 @@
+'use client'
 import { useCurrentMember } from '@/features/member/api/use-current-member'
 import { useGetWorkspace } from '@/features/workspaces/api/use-get-workspace'
 import { useWorkspaceId } from '@/hooks/use-workspace-id'

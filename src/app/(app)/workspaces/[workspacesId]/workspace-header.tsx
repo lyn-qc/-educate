@@ -1,4 +1,4 @@
-
+'use client'
 import React, { useState } from 'react'
 import { Doc } from '../../../../../convex/_generated/dataModel'
 import {
