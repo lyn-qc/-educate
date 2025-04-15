@@ -10,6 +10,9 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useRemoveMessage } from "@/features/message/api/use-delete-message";
 import { useConfirm } from "@/hooks/use-confirm";
+import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
+import { Reactions } from "./reactions";
+import usePanel from "@/hooks/use-panel";
 
 const Renderer = dynamic(() => import("@/components/renderder"), { ssr: false });
 // const Edtior = dynamic(() => import("@/components/editor"), { ssr: false });
@@ -58,42 +61,63 @@ export default function Message({
   threadImage,
   threadTimestamp
 }: MessageProps) {
-    const [ConfirmDialog,confirm] = useConfirm(
-      "删除消息",
-      "确定要删除这条消息吗？"
-    )
+  const [ConfirmDialog, confirm] = useConfirm(
+    "删除消息",
+    "确定要删除这条消息吗？"
+  )
 
-    const avatarFallback = authorName.charAt(0).toUpperCase();
-    const {mutate: updateMessage, isPending: isUpdatingMessage} = useUpdateMessage()
-    const {mutate: removeMessage, isPending: isRemovingMessage} = useRemoveMessage()
-    const isPending = isUpdatingMessage
+  const avatarFallback = authorName.charAt(0).toUpperCase();
+  const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage()
+  const { mutate: removeMessage, isPending: isRemovingMessage } = useRemoveMessage()
+  const {mutate: toggleReaction, isPending: isUpdatingReaction} = useToggleReaction()
+  const isPending = isUpdatingMessage
 
-    const handleupdate = ({body}:{body: string})=>{
-        updateMessage({id, body},{
-          onSuccess:()=>{
-            toast.success("消息更新")
-            setEditingId(null)
-          },
-          onError:()=>{
-            toast.error("消息更新失败")
-          }
-        })
-    }
+  
+  const isWithin5Minutes = Date.now() - new Date(createdAt).getTime() < 300_000; // 5分钟 = 300,000毫秒
 
-    const handleDelete =async ()=>{
-      const ok = await confirm()
-      if(!ok){
-        return
+  const {parentMessageId,onOpenMessage,onCloseMessage} = usePanel()
+  const handleupdate = ({ body }: { body: string }) => {
+    updateMessage({ id, body }, {
+      onSuccess: () => {
+        toast.success("消息更新")
+        setEditingId(null)
+      },
+      onError: () => {
+        toast.error("消息更新失败")
       }
-      removeMessage({id},{
-        onSuccess:()=>{
-          toast.success("消息删除成功")
-        },
-        onError:()=>{
-          toast.error("消息删除失败")
-        }
-      })
+    })
+  }
+
+  const handleReaction = (value: string) => {
+    toggleReaction({ messageId:id, value }, {
+      onSuccess: () => {
+        toast.success("消息更新")
+      },
+      onError: (error) => {
+        console.log(error);
+        
+        toast.error("消息更新失败")
+      }
+    })
+  }
+
+  const handleDelete = async () => {
+    const ok = await confirm()
+    if (!ok) {
+      return
     }
+    removeMessage({ id }, {
+      onSuccess: () => {
+        if (parentMessageId===id) {
+          onCloseMessage()
+        }
+        toast.success("消息删除成功")
+      },
+      onError: (error) => {
+        toast.error("消息删除失败")
+      }
+    })
+  }
   if (isCompact) {
     return (
       <div className={cn("flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
@@ -109,32 +133,34 @@ export default function Message({
             <Renderer value={body}></Renderer>
             <Thumbnail url={image}></Thumbnail>
             {
-                updateAt?(
-                    <span className="text-xs text-muted-foreground">
-                        (edited)
-                    </span>
-                ):null
+              updateAt ? (
+                <span className="text-xs text-muted-foreground">
+                  (edited)
+                </span>
+              ) : null
             }
+            <Reactions data={reactions} onChange={handleReaction} />
           </div>
         </div>
         {
-        !isEditing &&(
-          <Toolbar
-           isAuthor={isAuthor}
-           isPending={false}
-           handleEdit={()=>{setEditingId(id)}}
-           handleThread={()=>{}}
-           handleDelete={handleDelete}
-           handleReaction={()=>{}}
-           hideThreadButton={hideThreadButton}
-          >
-          </Toolbar>
-        )
-      }
+          !isEditing && (
+            <Toolbar
+              isAuthor={isAuthor}
+              isPending={false}
+              handleEdit={() => { setEditingId(id) }}
+              handleThread={() => onOpenMessage(id)}
+              handleDelete={handleDelete}
+              handleReaction={handleReaction}
+              hideThreadButton={hideThreadButton}
+              isDeleteDisabled={!isWithin5Minutes}
+            >
+            </Toolbar>
+          )
+        }
       </div>
     )
   }
- 
+
   return (
     <div className={cn("flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
       isEditing && "bg-blue-500 hover:bg-blue-200",
@@ -160,23 +186,25 @@ export default function Message({
             </button>
             <span>&nbsp;&nbsp;</span>
             <button className="text-xs text-muted-foreground hover:underline">
-                {format(new Date(createdAt), "HH:mm")}
+              {format(new Date(createdAt), "HH:mm")}
             </button>
           </div>
           <Renderer value={body} />
           <Thumbnail url={image}></Thumbnail>
+          <Reactions data={reactions} onChange={handleReaction} />
         </div>
       </div>
       {
-        !isEditing &&(
+        !isEditing && (
           <Toolbar
-           isAuthor={isAuthor}
-           isPending={false}
-           handleEdit={()=>{setEditingId(id)}}
-           handleThread={()=>{}}
-           handleDelete={handleDelete}
-           handleReaction={()=>{}}
-           hideThreadButton={hideThreadButton}
+            isAuthor={isAuthor}
+            isPending={false}
+            handleEdit={() => { setEditingId(id) }}
+            handleThread={() => onOpenMessage(id)}
+            handleDelete={handleDelete}
+            handleReaction={handleReaction}
+            hideThreadButton={hideThreadButton}
+            isDeleteDisabled={!isWithin5Minutes}
           >
 
           </Toolbar>

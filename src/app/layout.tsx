@@ -4,7 +4,7 @@ import "./globals.css";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { JotaiProvaider } from "@/components/JotaiProvaider";
-
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,7 +34,10 @@ export default function RootLayout({
         >
           <ConvexClientProvider>
             <JotaiProvaider>
+            <NuqsAdapter>
             {children}
+            </NuqsAdapter>
+            
             </JotaiProvaider>
             
           </ConvexClientProvider>

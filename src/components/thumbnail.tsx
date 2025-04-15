@@ -28,6 +28,5 @@ export default function Thumbnail({ url }: ThumbnailProps) {
                 <img src={url} alt="图片" className="rounded-md object-cover size-full" />
             </DialogContent>
         </Dialog>
-        
     )
 }
