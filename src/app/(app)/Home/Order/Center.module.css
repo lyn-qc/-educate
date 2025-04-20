@@ -1,0 +1,33 @@
+.home_left_center{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* background-color: blue; */
+}
+.center_div_top{
+    width: 170px;
+    height: 80px;
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.center_div_bottom{
+    width: 170px;
+    height: 10px;
+    background-color: #ebebec;
+    border-radius: 0 0 10px 10px;
+}
+.top_money{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.top_fen{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -9,7 +9,7 @@
 .sidder_name{
     font-size: 24px;
     font-weight: bold;
-    border-top: 3px solid #cceabb;
+    border-top: 3px solid var(--color-1);
     margin-top: 30px;
     margin-bottom: 40px;
 }
@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 .sidder_bac{
     width: 68%;
@@ -29,6 +30,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 .sidder_nav span,.sidder_bac span{
     margin-left: 10px;
@@ -50,7 +52,7 @@
 .main_top_left{
     display: flex;
     align-items: center;
-    width: 800px;
+    width: 65%;
     justify-content: space-between;
 }
 .main_top_left span{
@@ -58,7 +60,7 @@
     align-items: center;
 }
 .main_top_right{
-    width: 400px;
+    width: 27%;
     height: 100%;
     /* background-color: aquamarine; */
     display: flex;
@@ -89,6 +91,6 @@
 .main_bottom{
     width: 100%;
     height: 88%;
-    padding: 0 3%;
+    /* padding: 0 3%; */
     /* background-color: aqua; */
 }
