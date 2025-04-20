@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const sidebarSchema = new mongoose.Schema({
     messages: [
         {
-            role: String, // 'ai' 或 'local'
+            role: String, // 'user' 或 'assistant'
             content: String,
             createdAt: { type: Date, default: Date.now } // 当前消息时间
         }

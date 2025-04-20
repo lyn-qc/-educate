@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import '../styles/markdown.css';
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -76,6 +79,15 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --color-1: #cceabc;
+  --color-2: #feca9f;
+  --color-3: #3f3f44;
+  --color-4: #fe7b56;
+  --color-5: #bcdaac;
+  --color-6: #abd7e9;
+  --color-7: #fcf4ee;
+  --color-8: #f5faf3;
+  --color-9: #f7f7f7;
 }
 
 .dark {
@@ -122,14 +134,6 @@
   }
 }
 
-:root {
-  --color-1: #cceabc;
-  --color-2: #feca9f;
-  --color-3: #3f3f44;
-  --color-4: #fe7b56;
-  --color-5: #bcdaac;
-  --color-6: #abd7e9;
-  --color-7: #fcf4ee;
-  --color-8: #f5faf3;
-  --color-9: #f7f7f7;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

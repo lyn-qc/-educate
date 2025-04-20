@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { DeleteOutlined, EditOutlined, StopOutlined } from '@ant-design/icons';
 import { Conversations } from '@ant-design/x';
 import type { ConversationsProps } from '@ant-design/x';
 import { type GetProp, Spin, Empty } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useSiderbarData } from "@/regionAI/jotai/switch";
 
 // 定义会话数据的接口
 export interface ConversationData {
@@ -24,6 +26,8 @@ interface ConversationComponentProps {
     onDeleteConversation?: (id: string) => void;
     onSelectConversation?: (id: string) => void;
     loading?: boolean;
+    // 当前选中的会话ID，用于控制高亮显示
+    activeConversationId?: string;
 }
 
 export default function Conversation({
@@ -32,30 +36,52 @@ export default function Conversation({
     onSelectConversation,
     loading: externalLoading
 }: ConversationComponentProps) {
+    // 使用全局状态管理选中的会话ID
+    const [selectedConversationId, setSelectedConversationId] = useSiderbarData();
     // 使用useState创建会话列表状态
     const [conversationItems, setConversationItems] = useState<GetProp<ConversationsProps, 'items'>>([]);
     const [loading, setLoading] = useState<boolean>(externalLoading !== undefined ? externalLoading : true);
+    // 当前选中的会话key
+    const [activeKey, setActiveKey] = useState<string | undefined>(selectedConversationId || undefined);
+
+    // 当全局状态 selectedConversationId 变化时，更新本地状态
+    useEffect(() => {
+        // 只有在有值且非空字符串时才设置activeKey
+        setActiveKey(selectedConversationId && selectedConversationId.trim() !== '' ? selectedConversationId : undefined);
+    }, [selectedConversationId]);
 
     // 处理会话激活（选中）事件
-    const handleActiveChange = (activeKey: string) => {
-        console.log("会话被选中，ID:", activeKey);
-        if (onSelectConversation) {
-            onSelectConversation(activeKey);
+    const handleActiveChange = (newActiveKey: string) => {
+        console.log("会话被选中，ID详情:", {
+            id: newActiveKey,
+            type: typeof newActiveKey,
+            previousActiveKey: activeKey,
+            length: newActiveKey ? newActiveKey.length : 0
+        });
+        
+        // 确保 activeKey 是字符串且非空
+        if (newActiveKey && typeof newActiveKey === 'string' && newActiveKey.trim() !== '') {
+            // 首先更新本地状态
+            setActiveKey(newActiveKey);
+            
+            // 然后同步更新全局状态
+            setSelectedConversationId(newActiveKey);
+            
+            // 最后通知父组件
+            if (onSelectConversation) {
+                onSelectConversation(newActiveKey);
+            }
+        } else {
+            console.error("无效的会话ID:", newActiveKey);
         }
     };
 
     const menuConfig: ConversationsProps['menu'] = (conversation: { key: unknown; }) => ({
         items: [
             {
-                label: '编辑',
+                label: '重命名',
                 key: 'edit',
                 icon: <EditOutlined />,
-            },
-            {
-                label: '停用',
-                key: 'stop',
-                icon: <StopOutlined />,
-                disabled: true,
             },
             {
                 label: '删除',
@@ -164,11 +190,26 @@ export default function Conversation({
     useEffect(() => {
         if (conversationData) {
             formatAndSetConversations(conversationData);
+            
+            // 如果有有效的会话ID，自动选中该会话
+            if (selectedConversationId && selectedConversationId.trim() !== '') {
+                console.log("从存储中恢复会话选择:", selectedConversationId);
+                setActiveKey(selectedConversationId);
+                
+                // 有效会话ID必须在会话列表中存在
+                const conversationExists = conversationData.some(conv => conv._id === selectedConversationId);
+                if (conversationExists) {
+                    // 通知父组件更新UI状态
+                    onSelectConversation?.(selectedConversationId);
+                } else {
+                    console.log("存储的会话ID不在当前会话列表中:", selectedConversationId);
+                }
+            }
         } else {
             // 如果没有传入数据，则自行获取数据
             getSidebar();
         }
-    }, [conversationData]);
+    }, [conversationData, selectedConversationId]);
 
     // 监听外部loading状态变化
     useEffect(() => {
@@ -201,6 +242,7 @@ export default function Conversation({
                     menu={menuConfig}
                     items={conversationItems}
                     onActiveChange={handleActiveChange}
+                    activeKey={selectedConversationId && selectedConversationId.trim() !== '' ? selectedConversationId : undefined}
                 />
             )}
         </div>
