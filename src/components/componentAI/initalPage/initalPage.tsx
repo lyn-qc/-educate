@@ -20,48 +20,52 @@ const renderTitle = (icon: React.ReactElement, title: string) => (
 const items: PromptsProps['items'] = [
     {
         key: '1',
-        label: renderTitle(<FireOutlined style={{ color: '#FF4D4F' }} />, '热门话题'),
-        description: '热门话题是否感兴趣?',
+        label: renderTitle(<FireOutlined style={{ color: '#FF4D4F' }} />, '设计热门话题'),
+        description: '设计领域热门讨论',
         children: [
             {
                 key: '1-1',
-                description: `What's new in X?`,
+                description: `帮我分析2025年UI设计的主要趋势`,
             },
             {
                 key: '1-2',
-                description: `What's AGI?`,
+                description: `如何在设计中有效运用AI工具提高效率`,
             },
             {
                 key: '1-3',
-                description: `Where is the doc?`,
+                description: `如何设计一个既美观又符合用户体验的移动应用界面`,
             },
         ],
     },
     {
         key: '2',
-        label: renderTitle(<ReadOutlined style={{ color: '#1890FF' }} />, 'Design Guide'),
-        description: 'How to design a good product?',
+        label: renderTitle(<ReadOutlined style={{ color: '#1890FF' }} />, '设计指南'),
+        description: '如何设计一个好产品?',
         children: [
             {
                 key: '2-1',
                 icon: <HeartOutlined />,
-                description: `Know the well`,
+                description: `设计原则`,
             },
             {
                 key: '2-2',
                 icon: <SmileOutlined />,
-                description: `Set the AI role`,
+                description: `设计趋势`,
             },
             {
                 key: '2-3',
                 icon: <CommentOutlined />,
-                description: `Express the feeling`,
+                description: "设计工具",
             },
         ],
     }
 ];
 
-export default function InitalPage() {
+interface InitalPageProps {
+    onPromptClick?: (promptText: string) => void;
+}
+
+export default function InitalPage({ onPromptClick }: InitalPageProps) {
     const [messageApi, contextHolder] = message.useMessage();
 
     return (
@@ -72,12 +76,12 @@ export default function InitalPage() {
                 className="w-9/12"
                 icon="https://mdn.alipayobjects.com/huamei_iwk9zp/afts/img/A*s5sNRo5LjfQAAAAAAAAAAAAADgCCAQ/fmt.webp"
                 title="我是 Koto, 很高兴见到你!"
-                description="我可以帮你理解作品、查看资料、写作各种创意内容，请把你的任务交给我吧~"
+                description="专门为设计师和创意工作者提供专业支持。我可以帮助你完成各种设计相关的任务"
             />
             
             <Card
                 style={{ borderRadius: 0, border: 0 }}
-                className="w-8/12"
+                className="w-9/12"
             >
                 <Prompts
                     title="你想要的问题?"
@@ -96,9 +100,13 @@ export default function InitalPage() {
                         },
                     }}
                     onItemClick={(info) => {
+                        const promptText = info.data.description as string;
+                        if (onPromptClick && promptText) {
+                            onPromptClick(promptText);
+                        }
                         messageApi.open({
                             type: 'success',
-                            content: `You clicked a prompt: ${info.data.key}`,
+                            content: `已选择: ${promptText}`,
                         });
                     }}
                 />

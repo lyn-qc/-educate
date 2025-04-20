@@ -1,4 +1,4 @@
-import { sidebarModel } from "@/db/index"
+import { sidebarModel } from "@/db/index";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -17,6 +17,5 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
     const data = await sidebarModel.find()
-
     return NextResponse.json({ code: 200, success: true, data: data })
 }
