@@ -122,8 +122,130 @@
   }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+:root {
+  --color-1: #cceabc;
+  --color-2: #feca9f;
+  --color-3: #3f3f44;
+  --color-4: #fe7b56;
+  --color-5: #bcdaac;
+  --color-6: #abd7e9;
+  --color-7: #fcf4ee;
+  --color-8: #f5faf3;
+  --color-9: #f7f7f7;
+}
+
+body {
+  height: 100vh;
+}
+
+:root {
+  height: 100vh;
+}
+
+.ql-toolbar {
+  border: none !important;
+  background-color: #f8f8f8 !important;
+}
+
+.ql-toolbar .ql-formats:not(:last-child) {
+  border-right: 1px solid #dcdcdc !important;
+  padding-right: 12px !important;
+}
+
+.ql-container {
+  font-family: "Lato", sans-serif !important;
+  border: none !important;
+  height: unset !important;
+}
+
+.ql-editor {
+  line-height: 22px !important;
+  padding: 8px 12px !important;
+  color: #1d1c1d !important;
+  font-weight: 400 !important;
+  font-family: "Lato", sans-serif !important;
+  font-size: 14px !important;
+  min-height: 80px;
+  max-height: 120px;
+}
+
+.ql-editor a {
+  color: #1264a3 !important;
+}
+
+.ql-editor a:hover {
+  text-decoration: underline !important;
+}
+
+.ql-renderer {
+  padding: 0 !important;
+}
+
+.ql-editor:before {
+  left: 12px !important;
+  font-family: "Lato", sans-serif !important;
+  color: #8d8d8d !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  @apply truncate
+}
+
+.messages-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #dcdcdc #f8f8f8;
+}
+
+
+.qlm-toolbar {
+  border: none !important;
+  background-color: #f8f8f8 !important;
+}
+
+.qlm-toolbar .ql-formats:not(:last-child) {
+  border-right: 1px solid #dcdcdc !important;
+  padding-right: 12px !important;
+}
+
+.qlm-container {
+  font-family: "Lato", sans-serif !important;
+  border: none !important;
+  height: unset !important;
+}
+
+.qlm-editor {
+  line-height: 22px !important;
+  padding: 8px 12px !important;
+  color: #1d1c1d !important;
+  font-weight: 400 !important;
+  font-family: "Lato", sans-serif !important;
+  font-size: 14px !important;
+}
+
+.qlm-editor a {
+  color: #1264a3 !important;
+}
+
+.qlm-editor a:hover {
+  text-decoration: underline !important;
+}
+
+.qlm-renderer {
+  padding: 0 !important;
+}
+
+.qlm-editor::before {
+  left: 12px !important;
+  font-family: "Lato", sans-serif !important;
+  color: #8d8d8d !important;
+  font-style: normal !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  @apply truncate;
+}
+
+.messages-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #b2b8bb #f8f8f8;
+
 }
