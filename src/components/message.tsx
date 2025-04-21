@@ -13,12 +13,13 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 import { Reactions } from "./reactions";
 import usePanel from "@/hooks/use-panel";
+import ThreadBar from "./thread-bar";
 
 const Renderer = dynamic(() => import("@/components/renderder"), { ssr: false });
 // const Edtior = dynamic(() => import("@/components/editor"), { ssr: false });
 interface MessageProps {
   id: Id<"messages">;
-  messageID: Id<"members">;
+  memberId: Id<"members">;
   authorName?: string
   isAuthor: boolean
   authorImage?: string
@@ -44,7 +45,7 @@ interface MessageProps {
 
 export default function Message({
   id,
-  messageID,
+  memberId,
   authorName = "Member",
   isAuthor,
   authorImage,
@@ -69,13 +70,13 @@ export default function Message({
   const avatarFallback = authorName.charAt(0).toUpperCase();
   const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage()
   const { mutate: removeMessage, isPending: isRemovingMessage } = useRemoveMessage()
-  const {mutate: toggleReaction, isPending: isUpdatingReaction} = useToggleReaction()
+  const { mutate: toggleReaction, isPending: isUpdatingReaction } = useToggleReaction()
   const isPending = isUpdatingMessage
 
-  
+
   const isWithin5Minutes = Date.now() - new Date(createdAt).getTime() < 300_000; // 5分钟 = 300,000毫秒
 
-  const {parentMessageId,onOpenMessage,onCloseMessage} = usePanel()
+  const { parentMessageId, onOpenMessage, onCloseMessage,onOpenProfile } = usePanel()
   const handleupdate = ({ body }: { body: string }) => {
     updateMessage({ id, body }, {
       onSuccess: () => {
@@ -89,13 +90,13 @@ export default function Message({
   }
 
   const handleReaction = (value: string) => {
-    toggleReaction({ messageId:id, value }, {
+    toggleReaction({ messageId: id, value }, {
       onSuccess: () => {
         toast.success("消息更新")
       },
       onError: (error) => {
         console.log(error);
-        
+
         toast.error("消息更新失败")
       }
     })
@@ -108,7 +109,7 @@ export default function Message({
     }
     removeMessage({ id }, {
       onSuccess: () => {
-        if (parentMessageId===id) {
+        if (parentMessageId === id) {
           onCloseMessage()
         }
         toast.success("消息删除成功")
@@ -140,6 +141,12 @@ export default function Message({
               ) : null
             }
             <Reactions data={reactions} onChange={handleReaction} />
+            <ThreadBar
+              count={threadCount}
+              image={threadImage}
+              timestamp={threadTimestamp}
+              onClick={()=>onOpenMessage(id)}
+            />
           </div>
         </div>
         {
@@ -168,10 +175,12 @@ export default function Message({
     )} >
       <ConfirmDialog></ConfirmDialog>
       <div className="flex items-start gap-2">
-        <button className="w-[30px] h-[30px] overflow-hidden rounded-full relative">
-          <Avatar className='size-5 rounded-md mr-1'>
+        <button className="w-[36px] h-[36px] overflow-hidden rounded-full relative"
+         onClick={() => onOpenProfile(memberId)}
+        >
+          <Avatar className='size-5 mr-1'>
             <AvatarImage className='rounded-md' src={authorImage} ></AvatarImage>
-            <AvatarFallback className='rounded-md bg-sky-500 text-white text-xs'>
+            <AvatarFallback className='w-[36px] h-[36px] shrink-0 rounded-full bg-sky-500 text-white '>
               {avatarFallback}
             </AvatarFallback>
           </Avatar>
@@ -179,7 +188,7 @@ export default function Message({
         <div className="flex flex-col w-full overflow-hidden">
           <div className="text-sm">
             <button
-              onClick={() => { }}
+              onClick={() => onOpenProfile(memberId)}
               className="font-bold text-primary hover:underline"
             >
               {authorName}
@@ -192,6 +201,12 @@ export default function Message({
           <Renderer value={body} />
           <Thumbnail url={image}></Thumbnail>
           <Reactions data={reactions} onChange={handleReaction} />
+          <ThreadBar
+            count={threadCount}
+            image={threadImage}
+            timestamp={threadTimestamp}
+            onClick={()=>onOpenMessage(id)}
+          />
         </div>
       </div>
       {
@@ -206,7 +221,6 @@ export default function Message({
             hideThreadButton={hideThreadButton}
             isDeleteDisabled={!isWithin5Minutes}
           >
-
           </Toolbar>
         )
       }
